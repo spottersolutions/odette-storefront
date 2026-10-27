@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odette Storefront</title>
+    <meta
+      name="description"
+      content="Odette Storefront — a modern, customer-facing storefront for handcrafted and curated products."
+    />
+    <style>
+      :root {
+        --bg: #f7f4ee;
+        --panel: #fffdf9;
+        --card: #ffffff;
+        --text: #1c1a17;
+        --muted: #6a625b;
+        --line: #e9e2d8;
+        --primary: #7a513d;
+        --primary-dark: #563926;
+        --secondary: #d9b38c;
+        --success: #2a7f62;
+        --warning: #f3c86c;
+        --shadow: 0 16px 34px rgba(35, 25, 18, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        background: #fffefc;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 76px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary), #b98d68);
+        color: white;
+        font-weight: 700;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .nav a:hover {
+        color: var(--primary-dark);
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .link-btn {
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--text);
+        padding: 10px 16px;
+        border-radius: 999px;
+      }
+
+      .primary-btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 999px;
+        font-weight: 700;
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 48px 0 32px;
+      }
+
+      .hero-wrap {
+        background: linear-gradient(135deg, #f6efe5 0%, #f7f3ee 100%);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .hero-copy {
+        padding: 54px 42px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(122, 81, 61, 0.08);
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+
+      .hero h1 {
+        margin: 18px 0 14px;
+        font-size: clamp(2.4rem, 4vw, 4.4rem);
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+      }
+
+      .hero p {
+        margin: 0 0 26px;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        max-width: 560px;
+      }
+
+      .cta-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .secondary-link {
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+
+      .hero-metrics {
+        margin-top: 28px;
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+
+      .metric {
+        min-width: 100px;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.5rem;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .hero-visual {
+        position: relative;
+        min-height: 420px;
+        background: linear-gradient(135deg, #efe0cb, #f7f5f1);
+      }
+
+      .product-shot {
+        position: absolute;
+        inset: 28px 34px 24px 24px;
+        border-radius: 28px;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.18)
+          ),
+          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900"><rect fill="%23f4eadc" width="1200" height="900"/><circle cx="570" cy="240" r="150" fill="%23d8b18d" opacity="0.38"/><rect x="330" y="280" width="520" height="420" rx="44" fill="%23fefbfd" stroke="%23d1b39a" stroke-width="8"/><rect x="430" y="330" width="300" height="220" rx="24" fill="%23ddc3a9"/><rect x="470" y="420" width="230" height="60" rx="12" fill="%23b47d58"/><rect x="380" y="520" width="420" height="70" rx="18" fill="%23f0d7b0"/><path d="M430 240 L760 240 L690 280 L500 280 Z" fill="%23a66d4c" opacity="0.7"/><rect x="470" y="180" width="220" height="60" rx="18" fill="%23ba8a64"/></svg>') center/cover no-repeat;
+        border: 1px solid rgba(118, 89, 72, 0.12);
+        box-shadow: var(--shadow);
+      }
+
+      .floating-badge {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 12px 14px;
+        backdrop-filter: blur(8px);
+      }
+
+      .badge-top {
+        top: 40px;
+        right: 28px;
+      }
+
+      .badge-bottom {
+        bottom: 36px;
+        left: 24px;
+      }
+
+      .badge-top strong,
+      .badge-bottom strong {
+        display: block;
+        font-size: 1.2rem;
+      }
+
+      .badge-top span,
+      .badge-bottom span {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .section {
+        padding: 30px 0 10px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 2vw, 2.5rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-header a {
+        color: var(--primary-dark);
+        font-weight: 700;
+      }
+
+      .chips {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+
+      .chip {
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .chip.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      .catalog {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(43, 29, 22, 0.04);
+      }
+
+      .card-media {
+        height: 220px;
+        background: linear-gradient(135deg, #e8d8c6, #f2efe9);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-media::before {
+        content: "";
+        position: absolute;
+        inset: 22px 28px 18px 28px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0.2));
+        border: 1px solid rgba(122,81,61,0.08);
+      }
+
+      .card-media[data-tone="warm"] {
+        background: linear-gradient(135deg, #f0dfc9, #f6efe7);
+      }
+
+      .card-media[data-tone="earth"] {
+        background: linear-gradient(135deg, #e5dcc8, #f4efe8);
+      }
+
+      .card-media[data-tone="sage"] {
+        background: linear-gradient(135deg, #dfe7db, #f4f6f1);
+      }
+
+      .card-media[data-tone="stone"] {
+        background: linear-gradient(135deg, #e3e0dd, #f4f3f0);
+      }
+
+      .card-content {
+        padding: 18px 18px 20px;
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: #faf4ee;
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.76rem;
+      }
+
+      .price {
+        font-weight: 800;
+        font-size: 1.15rem;
+      }
+
+      .card h3 {
+        margin: 0 0 4px;
+        font-size: 1.18rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.92rem;
+      }
+
+      .card-footer {
+        margin-top: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .stars {
+        color: #dba93f;
+        letter-spacing: 0.1em;
+      }
+
+      .cta-small {
+        border: none;
+        background: #f2e5d8;
+        color: var(--primary-dark);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 700;
+      }
+
+      .feature-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin: 22px 0 12px;
+      }
+
+      .feature {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 22px 20px;
+      }
+
+      .feature .icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #f5e5d4;
+        display: grid;
+        place-items: center;
+        font-size: 1.4rem;
+        margin-bottom: 14px;
+      }
+
+      .feature h3 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .shop-layout {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 24px;
+        align-items: start;
+        margin: 26px 0 50px;
+      }
+
+      .story-panel,
+      .cart-panel {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 26px;
+      }
+
+      .story-panel h3,
+      .cart-panel h3 {
+        margin: 0 0 16px;
+        font-size: 1.6rem;
+        letter-spacing: -0.04em;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .story-tile {
+        background: linear-gradient(135deg, #f9f1e7, #f5efe9);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+      }
+
+      .story-tile strong {
+        display: block;
+        font-size: 1.7rem;
+        margin: 8px 0;
+      }
+
+      .story-tile span {
+        color: var(--muted);
+      }
+
+      .cart-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+
+      .cart-name {
+        font-weight: 700;
+      }
+
+      .cart-meta {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .cart-total {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .total-row strong {
+        font-size: 1.5rem;
+      }
+
+      footer {
+        padding: 18px 0 42px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .catalog {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .hero-wrap,
+        .shop-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .feature-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .nav {
+          display: none;
+        }
+
+        .topbar-inner {
+          justify-content: center;
+          flex-wrap: wrap;
+          padding: 12px 0;
+        }
+
+        .catalog {
+          grid-template-columns: 1fr;
+        }
+
+        .story-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy {
+          padding: 32px 22px;
+        }
+
+        .hero-visual {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand" aria-label="Odette home">
+          <div class="brand-mark">O</div>
+          <span>Odette</span>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#new">New Arrivals</a>
+          <a href="#shop">Shop</a>
+          <a href="#collections">Collections</a>
+          <a href="#journal">Journal</a>
+          <a href="#about">About</a>
+        </nav>
+
+        <div class="actions">
+          <button class="link-btn" type="button">Search</button>
+          <button class="primary-btn" type="button">Cart (0)</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-wrap">
+          <div class="hero-copy">
+            <div class="eyebrow">New season · Made with intention</div>
+            <h1>Curated essentials for everyday rituals.</h1>
+            <p>
+              Thoughtful home, wellness, and gifting pieces designed to bring warmth,
+              texture, and calm into your everyday life.
+            </p>
+            <div class="cta-row">
+              <button class="primary-btn" type="button">Shop best sellers</button>
+              <a href="#collections" class="secondary-link">Explore collections</a>
+            </div>
+            <div class="hero-metrics" aria-label="store highlights">
+              <div class="metric">
+                <strong>12k+</strong>
+                <span>happy shoppers</span>
+              </div>
+              <div class="metric">
+                <strong>4.9/5</strong>
+                <span>average rating</span>
+              </div>
+              <div class="metric">
+                <strong>48h</strong>
+                <span>dispatch window</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="Featured products display">
+            <div class="product-shot"></div>
+            <div class="floating-badge badge-top">
+              <strong>Oak + Linen</strong>
+              <span>Studio collection</span>
+            </div>
+            <div class="floating-badge badge-bottom">
+              <strong>$89</strong>
+              <span>Featured bundle</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="collections">
+        <div class="container">
+          <div class="section-header">
+            <h2>Shop by collection</h2>
+            <a href="#shop">View all</a>
+          </div>
+
+          <div class="chips" aria-label="Filter categories">
+            <button class="chip active" type="button">All</button>
+            <button class="chip" type="button">Home</button>
+            <button class="chip" type="button">Wellness</button>
+            <button class="chip" type="button">Gifts</button>
+            <button class="chip" type="button">Travel</button>
+          </div>
+
+          <div class="catalog" id="shop">
+            <article class="card">
+              <div class="card-media" data-tone="warm"></div>
+              <div class="card-content">
+                <div class="card-top">
+                  <span class="pill">Home</span>
+                  <span class="price">$48</span>
+                </div>
+                <h3>Amber Candle</h3>
+                <p>Warm cedar, saffron, and sandalwood for slower evenings.</p>
+                <div class="card-footer">
+                  <span class="stars">★★★★★</span>
+                  <button class="cta-small" type="button">Add to cart</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-media" data-tone="earth"></div>
+              <div class="card-content">
+                <div class="card-top">
+                  <span class="pill">Wellness</span>
+                  <span class="price">$64</span>
+                </div>
+                <h3>Botanical Diffuser</h3>
+                <p>Fresh eucalyptus notes that brighten every morning ritual.</p>
+                <div class="card-footer">
+                  <span class="stars">★★★★★</span>
+                  <button class="cta-small" type="button">Add to cart</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-media" data-tone="sage"></div>
+              <div class="card-content">
+                <div class="card-top">
+                  <span class="pill">Gifts</span>
+                  <span class="price">$72</span>
+                </div>
+                <h3>Weekend Tote</h3>
+                <p>Soft cotton canvas with a structured silhouette for everyday carry.</p>
+                <div class="card-footer">
+                  <span class="stars">★★★★☆</span>
+                  <button class="cta-small" type="button">Add to cart</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-media" data-tone="stone"></div>
+              <div class="card-content">
+                <div class="card-top">
+                  <span class="pill">Travel</span>
+                  <span class="price">$38</span>
+                </div>
+                <h3>Leather Journal</h3>
+                <p>Minimal pages and a supple finish for notes, ideas, and plans.</p>
+                <div class="card-footer">
+                  <span class="stars">★★★★★</span>
+                  <button class="cta-small" type="button">Add to cart</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="feature-strip" id="new">
+            <div class="feature">
+              <div class="icon">✦</div>
+              <h3>Small-batch crafted</h3>
+              <p>Every piece is designed in limited runs with quality materials and artistic finishes.</p>
+            </div>
+            <div class="feature">
+              <div class="icon">✓</div>
+              <h3>Thoughtful shipping</h3>
+              <p>Fast dispatch, protective packaging, and easy returns for a relaxed shopping experience.</p>
+            </div>
+            <div class="feature">
+              <div class="icon">♡</div>
+              <h3>Gift-ready details</h3>
+              <p>Beautiful wrapping, handwritten notes, and curated bundles for special moments.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="container shop-layout">
+          <div class="story-panel">
+            <h3>Designed to feel personal.</h3>
+            <div class="story-grid">
+              <div class="story-tile">
+                <span>Materials</span>
+                <strong>Natural</strong>
+                <span>Oat linen, natural cotton, recycled finishes.</span>
+              </div>
+              <div class="story-tile">
+                <span>Style</span>
+                <strong>Calm</strong>
+                <span>Modern essentials made to be lived with daily.</span>
+              </div>
+              <div class="story-tile">
+                <span>Purpose</span>
+                <strong>Useful</strong>
+                <span>Objects that add ease and intention to home rituals.</span>
+              </div>
+              <div class="story-tile">
+                <span>Impact</span>
+                <strong>Low waste</strong>
+                <span>Thoughtful packaging and timeless design choices.</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="cart-panel" aria-label="Shopping cart summary">
+            <h3>Your cart</h3>
+            <ul class="cart-list">
+              <li class="cart-item">
+                <div>
+                  <div class="cart-name">Amber Candle</div>
+                  <div class="cart-meta">Qty 1</div>
+                </div>
+                <strong>$48</strong>
+              </li>
+              <li class="cart-item">
+                <div>
+                  <div class="cart-name">Botanical Diffuser</div>
+                  <div class="cart-meta">Qty 1</div>
+                </div>
+                <strong>$64</strong>
+              </li>
+            </ul>
+            <div class="cart-total">
+              <div class="total-row">
+                <span>Subtotal</span>
+                <strong>$112</strong>
+              </div>
+              <button class="primary-btn" type="button" style="width: 100%;">Checkout</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">© 2026 Odette. Thoughtful objects for everyday rituals.</div>
+    </footer>
+  </body>
+</html>
